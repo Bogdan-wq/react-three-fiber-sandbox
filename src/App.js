@@ -1,47 +1,8 @@
-import React,{useRef,useState} from 'react';
+import React from 'react';
 import {Canvas} from "react-three-fiber";
-import {OrbitControls,Stars,HTML,} from "@react-three/drei";
+import {OrbitControls, Stars, HTML, TransformControls,} from "@react-three/drei";
+import Mesh from "./Mesh";
 import './styles.scss';
-
-
-const CanvasChildren = () => {
-
-   const ref = useRef();
-   const [active,setActive] = useState(false);
-
-
-   const handlePointerHover = (e) => {
-       setActive(s => !s)
-   }
-
-   const handlePointerMove = (e) => {
-       ref.current.style.transform = `
-       translateY(${-((window.innerHeight / 2) - e.clientY) + 20}px) 
-       translateX(${-((window.innerWidth / 2) - e.clientX) + 20}px)`;
-   }
-
-
-
-    return <>
-        <OrbitControls />
-        <ambientLight intensity={.5} />
-        <spotLight position={[10,15,10]} angle={.3}/>
-        <mesh position={[0,0,0]} rotation={[-Math.PI / 2,0,0]}>
-            <planeBufferGeometry attach="geometry" args={[10,10]} />
-            <meshLambertMaterial attach="material" color="seafoamgreen" />
-        </mesh>
-       <mesh position={[0,.5,0]} onPointerOver={handlePointerHover} onPointerOut={handlePointerHover} onPointerMove={handlePointerMove}>
-           <boxBufferGeometry attach="geometry"  />
-           <meshLambertMaterial attach="material" color={active ? "crimson" : "hotpink"} />
-       </mesh>
-        {active && <HTML ref={ref}>
-            <div className="container">
-                <span className="label">This is a cube</span>
-            </div>
-        </HTML>}
-    </>
-}
-
 
 function App() {
     return (
@@ -51,7 +12,37 @@ function App() {
               colorManagement
               camera={{position:[0,0,20],fov:70}}>
               <Stars />
-              <CanvasChildren />
+              <OrbitControls />
+              <ambientLight intensity={.5} />
+              <spotLight position={[10,15,10]} angle={.3}/>
+              <Mesh label="This is a cube">
+                  {(active,{handlePointerHover,handlePointerMove}) => (
+                      <mesh position={[1,.5,-2]} onPointerOver={handlePointerHover} onPointerOut={handlePointerHover} onPointerMove={handlePointerMove}>
+                          <boxBufferGeometry attach="geometry"  />
+                          <meshLambertMaterial attach="material" color={active ? "crimson" : "hotpink"} />
+                      </mesh>
+                  )}
+              </Mesh>
+              <Mesh label="This is a sphere">
+                  {(active,{handlePointerHover,handlePointerMove}) => (
+                      <mesh position={[2,.7,2]} onPointerOver={handlePointerHover} onPointerOut={handlePointerHover} onPointerMove={handlePointerMove}>
+                          <sphereBufferGeometry attach="geometry" args={[1,20,20]}/>
+                          <meshLambertMaterial attach="material" color={active ? "crimson" : "blue"} />
+                      </mesh>
+                  )}
+              </Mesh>
+              <Mesh label="This is a cylinder">
+                  {(active,{handlePointerHover,handlePointerMove}) => (
+                      <mesh position={[-2,1.5,2]} onPointerOver={handlePointerHover} onPointerOut={handlePointerHover} onPointerMove={handlePointerMove}>
+                          <cylinderBufferGeometry attach="geometry" args={[1,2,3]}/>
+                          <meshLambertMaterial attach="material" color={active ? "crimson" : "purple"} />
+                      </mesh>
+                  )}
+              </Mesh>
+              <mesh position={[0,0,0]} rotation={[-Math.PI / 2,0,0]}>
+                  <planeBufferGeometry attach="geometry" args={[10,10,5]} doubleSide={true}/>
+                  <meshLambertMaterial attach="material" color="seafoamgreen" />
+              </mesh>
           </Canvas>
         </div>
   );
