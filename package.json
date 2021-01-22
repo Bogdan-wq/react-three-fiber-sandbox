@@ -1,14 +1,19 @@
 {
-  "name": "react-three-fiber",
+  "name": "react-three-fiber-sanbox",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-three/drei": "^2.2.19",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.3",
     "@testing-library/user-event": "^12.6.2",
+    "node-sass": "^4.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.1",
+    "react-three-fiber": "^5.3.14",
+    "three": "^0.124.0",
+    "use-cannon": "^0.5.3",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
